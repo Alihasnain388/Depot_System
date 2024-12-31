@@ -89,6 +89,43 @@ public class Manager {
         parcel.markAsCollected();
         collectedParcels.add(parcel);
     }
+    
+    public List<Parcel> sortingBySurname() {  // Sorting using Surname
+        return parcelMap.getParcels().values().stream()
+                .filter(parcel -> !parcel.isCollected())
+                .sorted((p1, p2) -> {
+                    String customer1Surname = queueCus.getQueue().stream()
+                            .filter(c -> c.getParcelID().equals(p1.getParcelID()))
+                            .map(c -> extractSurname(c.getName()))
+                            .findFirst().orElse("");
+                    String customer2Surname = queueCus.getQueue().stream()
+                            .filter(c -> c.getParcelID().equals(p2.getParcelID()))
+                            .map(c -> extractSurname(c.getName()))
+                            .findFirst().orElse("");
+                    return customer1Surname.compareTo(customer2Surname);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private String extractSurname(String fullName) {
+        String[] parts = fullName.split(" ");
+        return parts.length > 1 ? parts[1] : parts[0];
+    }
+    
+    public static void main(String[] args) {
+        Manager manager = new Manager(); 
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Parcel Depot Management System");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.add(new View.ParcelDepotGUI(manager)); //Pass Manager to GUI
+            frame.pack();
+            frame.setVisible(true);
+        });
+
+      
+        
+    }
+
 }
 
     
