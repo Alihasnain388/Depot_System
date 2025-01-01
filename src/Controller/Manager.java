@@ -28,8 +28,8 @@ public class Manager {
 
       
         try {
-            Dataloader.loadParcels("Files/Parcels.csv", parcelMap); // Load parcel data
-            Dataloader.loadCustomers("Files/Custs.csv", queueCus); // Load customer data
+            Dataloader.loadParcels("File/Parcels.csv", parcelMap); // Load parcel data
+            Dataloader.loadCustomers("File/Custs.csv", queueCus); // Load customer data
         } catch (Exception e) {
             e.printStackTrace();
             log.log("Error loading data: " + e.getMessage());
